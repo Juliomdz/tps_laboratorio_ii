@@ -87,7 +87,7 @@ namespace Entidades
         {
             return !(vehiculo1.chasis == vehiculo2.chasis);
         }
-
+        #region para evitar el error CS0660 y CS0661
         public override bool Equals(object obj)
         {
             Vehiculo otroVehiculo = obj as Vehiculo;
@@ -97,5 +97,6 @@ namespace Entidades
         {
             return chasis.GetHashCode();
         }
+        #endregion
     }
 }
