@@ -13,17 +13,17 @@ namespace Entidades
 
 
         /// <summary>
-        /// Constructor 1 de una variable operando. Por defecto este constructor asigna un valor "0" al atributo ".numero".
+        /// Constructor de variables Operando
         /// </summary>
         public Operando()
         {
-            //El constructor por defecto (sin parámetros) asignará valor 0 al atributo numero.
+           
             this.numero = 0;
         }
 
 
         /// <summary>
-        ///  Constructor 2 de una variable operando. Al recibir un Double por parametro, llamara a la propiedad .Numero que validara y asignara el valor que estaba en fomato String al atributo ".numero" (en formato Double). 
+        ///  Constructor que recibe double 
         /// </summary>
         /// <param name="numero"></param>
         public Operando(double numero)
@@ -33,19 +33,12 @@ namespace Entidades
 
 
         /// <summary>
-        /// Constructor 3 de una variable operando. Al recibir un String por parametro, llamara a la propiedad .Numero que validara y asignara el valor que estaba en fomato String al atributo ".numero" (en formato Double). 
+        /// Constructor que recibe string 
         /// </summary>
         /// <param name="numero">Representa un numero (como String)</param>
         public Operando(string numero)
         {
-            //double numeroDouble;
 
-            /*
-            if (double.TryParse(numero, out numeroDouble) == true)
-            {
-                this.numero = numeroDouble;
-            }
-            */
 
             Numero = numero;
 
@@ -53,12 +46,10 @@ namespace Entidades
 
 
         /// <summary>
-        /// Propiedad que se ocupa SOLO de Settear (Asignar) un valor al atributo ".numero" habiendo anteriormente pasado por la funcion de "Validar Operando".
+        /// Setea un atributo a numero.
         /// </summary>
         public string Numero
         {
-            //La propiedad Numero asignará un valor al atributo número, previa validación.En
-            //este lugar será el único en todo el código que llame al método ValidarOperando.
 
             set
             {
@@ -69,10 +60,10 @@ namespace Entidades
 
 
         /// <summary>
-        /// Se ocupa de validar un operando, es decir un numero (en formato String) del cual solo debe contener como maximo 1 signo "-" y o ",", que ademas no debera ser un espacio en blanco.
+        /// Valida el operando (default +).
         /// </summary>
         /// <param name="strNumero">Numero como string que sera validado</param>
-        /// <returns>Retorna el numero ya habiendo sido validado. (en formato Double)</returns>
+        /// <returns>Retorna el resultado.</returns>
         private double ValidarOperando(string strNumero)
         {
             //ValidarOperando comprobará que el valor recibido sea numérico, y lo retornará en
@@ -84,16 +75,16 @@ namespace Entidades
             int contadorSignoNegativo = 0;
             int contadorSignoComa = 0;
 
-            //De antemano comprobar si es numerico. Si parece ser que lo es... hago el tryparse
+        
             for (int i = 0; i < strNumero.Length ; i++)
             {
-                //Si el caracter del string es un valor menor o mayor de la tabla ASCII en chars. Me fijo que onda
+               
                 if (strNumero[i] < '0' || strNumero[i] > '9')
                 {
-                    //Si no es ni una coma ni un -
+             
                     if (strNumero[i] != ',' && strNumero[i] != '-')
                     {
-                        //Es invalido
+             
                         validacion = false;
                         break;
                     }
@@ -108,7 +99,7 @@ namespace Entidades
                 }
             }
 
-            //Si tengo mas de 2 comas o dos signos negativos. Hay error.
+      
             if (contadorSignoNegativo > 1 || contadorSignoComa > 1)
             {
                 validacion = false;
