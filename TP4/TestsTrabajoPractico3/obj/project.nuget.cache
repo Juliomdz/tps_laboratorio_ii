@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GnkCNqLoxqn0OFDJd8dH12jDiv/lI2pvPjrOg6j/E60tVBbIOph5Rn24nFaR2NGT2MIVutOHY1PD+6zSCt14IA==",
+  "dgSpecHash": "PXCVWiXY9Allc7JEPEk5g9/dV/2wGGQpfYIGw16Pl505bfhU3ke5gEnn7hl1Mxu3dvIBZhbJ7K5u63YJsI6htg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\TestsTrabajoPractico3\\TestsTrabajoPractico3.csproj",
+  "projectFilePath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\TestsTrabajoPractico3\\TestsTrabajoPractico3.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\julio\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\julio\\.nuget\\packages\\microsoft.codecoverage\\16.9.4\\microsoft.codecoverage.16.9.4.nupkg.sha512",

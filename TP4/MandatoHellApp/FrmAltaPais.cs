@@ -17,75 +17,54 @@ namespace PaisesG20
         {
             InitializeComponent();
         }
-        //public FrmAltaPais(List<Pais> listaRecibida):this()
-        //{
 
-        //}
-        
+        private void FrmAltaPais_Load(object sender, EventArgs e)
+        {
+            LoadComboBoxes();
+        }
 
         private void btnAddPais_Click(object sender, EventArgs e)
         {
             AltaPais();
         }
-
-        private void FrmAltaPais_Load(object sender, EventArgs e)
+        private void btnJson_Click(object sender, EventArgs e)
         {
-            this.cboxContinente.DataSource = Enum.GetValues(typeof(EContinente));
-            this.cboxIdioma.DataSource = Enum.GetValues(typeof(EIdioma));
-            this.cboxIdh.DataSource = Enum.GetValues(typeof(EIndiceDesarrolloHumano));
+            SaveToJson();
         }
+
         /// <summary>
         /// Da de alta un nuevo pais y lo agrega a la lista del formulario principal.
         /// </summary>
         private void AltaPais()
         {
-            if (ValidarPaisNuevo() is true)
+            if (Pais.ValidarPaisNuevo(txtNombre.Text, txtPoblacion.Text, txtSuperficie.Text, out string mensajeError) is true)
             {
-                Pais nuevoPais = new Pais();
-                nuevoPais.Nombre = txtNombre.Text;
-                nuevoPais.Poblacion = Int32.Parse(txtPoblacion.Text);
-                nuevoPais.Superficie = Int32.Parse(txtSuperficie.Text);
-                nuevoPais.Idioma = (EIdioma)cboxIdioma.SelectedItem;
-                nuevoPais.Idh = (EIndiceDesarrolloHumano)cboxIdh.SelectedItem;
-                nuevoPais.Continente = (EContinente)cboxContinente.SelectedItem;
-                nuevoPais.Potencia = chbPotencia.Checked;
-
-                FrmMainMenu.ListaPaises.Add(nuevoPais);
-                MessageBox.Show($"Se agregó el país {nuevoPais.Nombre} a la lista del G20. ID:{nuevoPais.Id} ");
+                int idNuevoPais;
+                idNuevoPais= Pais.addPaisToList(FrmMainMenu.ListaPaises, txtNombre.Text, txtPoblacion.Text,txtSuperficie.Text,
+                                                (EIdioma)cboxIdioma.SelectedItem, (EIndiceDesarrolloHumano)cboxIdh.SelectedItem,
+                                                (EContinente)cboxContinente.SelectedItem, chbPotencia.Checked);
+                MessageBox.Show($"Se agregó el país {txtNombre.Text} a la lista del G20. ID:{idNuevoPais} ");
             }
-            //else 
-            //{
-            //    MessageBox.Show($"La lista no se modificó.");
-            //}
+            else if (mensajeError is not null)
+            {
+                MessageBox.Show(mensajeError);
+            }
         }
         /// <summary>
-        /// Valida que todos los imputs ingresados por el usuario sean datos validos para cada uno de los atributos de un Pais.
+        /// Carga los ComboBoxes con datos correspondientes a cada Enumerado.
         /// </summary>
         /// <returns></returns>
-        private bool ValidarPaisNuevo()
+        private void LoadComboBoxes()
         {
-            int auxNumeros;
-            if (string.IsNullOrWhiteSpace(txtNombre.Text) || (txtNombre.Text).Any(char.IsDigit))
-            {
-                MessageBox.Show($"Error, el nombre ingesado es invalido.");
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtPoblacion.Text) || !Int32.TryParse(txtPoblacion.Text, out auxNumeros) && auxNumeros <= 0)
-            {
-                MessageBox.Show($"Error, el numero de poblacion ingesado es invalido.");
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtSuperficie.Text) || !Int32.TryParse(txtSuperficie.Text, out auxNumeros) && auxNumeros <= 0)
-            {
-                MessageBox.Show($"Error, la superficie ingesada es invalida.");
-                return false;
-            }
-            return true;
+            this.cboxContinente.DataSource = Enum.GetValues(typeof(EContinente));
+            this.cboxIdioma.DataSource = Enum.GetValues(typeof(EIdioma));
+            this.cboxIdh.DataSource = Enum.GetValues(typeof(EIndiceDesarrolloHumano));
         }
-
-        private void btnJson_Click(object sender, EventArgs e)
+        private void SaveToJson()
         {
-            FrmMainMenu.SaveToJson();
+            string mensaje =Pais.SaveToJson(FrmMainMenu.ListaPaises);
+            MessageBox.Show(mensaje);
+
         }
     }
 }

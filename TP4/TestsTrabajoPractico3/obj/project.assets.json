@@ -6138,11 +6138,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\TestsTrabajoPractico3\\TestsTrabajoPractico3.csproj",
+      "projectUniqueName": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\TestsTrabajoPractico3\\TestsTrabajoPractico3.csproj",
       "projectName": "TestsTrabajoPractico3",
-      "projectPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\TestsTrabajoPractico3\\TestsTrabajoPractico3.csproj",
+      "projectPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\TestsTrabajoPractico3\\TestsTrabajoPractico3.csproj",
       "packagesPath": "C:\\Users\\julio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\TestsTrabajoPractico3\\obj\\",
+      "outputPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\TestsTrabajoPractico3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -6166,8 +6166,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj": {
-              "projectPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj"
+            "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\Entidades\\Entidades.csproj": {
+              "projectPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\Entidades\\Entidades.csproj"
             }
           }
         }
@@ -6214,7 +6214,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

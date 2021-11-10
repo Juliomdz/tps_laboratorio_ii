@@ -14,57 +14,27 @@ namespace PaisesG20
     public partial class FrmMainMenu : Form
     {
         private static List<Pais> listaPaises;
+        public static List<Pais> ListaPaises { get => listaPaises; set => listaPaises = value; }
         public FrmMainMenu()
         {
             InitializeComponent();
         }
 
-        public static List<Pais> ListaPaises { get => listaPaises; set => listaPaises = value; }
-
-
-
         private void FrmMainMenu_Load(object sender, EventArgs e)
         {
-            listaPaises = LoadFromJson();
-            DataGridViewLoad();
+            LoadFromJson();
         }
         /// <summary>
-        /// Carga la lista de paises desde un archivo Json y la actualiza en el DataGridView y la devuelve por retorno.
+        /// Carga la lista de paises desde un archivo Json con la funcion estatica de Pais.LoadFromJson,
+        ///la actualiza en el DataGridView y da un mensaje indicando si fue satisfactorio o hubo un error.
         /// </summary>
         /// <returns></returns>
-        private List<Pais> LoadFromJson()
+        private void LoadFromJson()
         {
-            try
-            {
-                Serializador<List<Pais>> lista = new Serializador<List<Pais>>(IArchivos<List<Pais>>.ETipoArchivo.JSON);
-                List<Pais> paisesG20 = lista.Leer("G20.json");
-                MessageBox.Show("Se Cargó la lista de paises del G20 por medio del archivo Json.");
-                DataGridRefresh();
-                return paisesG20;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return null;
-            }
-        }
-        /// <summary>
-        /// Guarda la lista estatica de paises que se encuentra en memoria en un archivo Json.
-        /// </summary>
-        internal static void SaveToJson()
-        {
-            List<Pais> paisesG20 = listaPaises;
-
-            try
-            {
-                Serializador<List<Pais>> lista = new Serializador<List<Pais>>(IArchivos<List<Pais>>.ETipoArchivo.JSON);
-                lista.Escribir(paisesG20, "G20.json");
-                MessageBox.Show("Json creado correctamente.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            string mensaje;
+            listaPaises = Pais.LoadFromJson(out mensaje);
+            MessageBox.Show(mensaje);
+            DataGridViewLoad();
         }
         /// <summary>
         /// Linkea el DataGridView con la lista estatica de paises, por medio del DataSource.
@@ -85,7 +55,7 @@ namespace PaisesG20
             bs.ResetBindings(false);
         }
         /// <summary>
-        /// Sobrecarga del metodo anterior que recibe como parametro una lista filtrada para ser mostrada.
+        /// Sobrecarga del metodo anterior que recibe como parametro una lista filtrada para ser mostrada en lugar de la original.
         /// </summary>
         /// <param name="listaFiltrada">Lista filtrada recibida para ser mostrada</param>
         private void DataGridRefresh(List<Pais> listaFiltrada)
@@ -100,22 +70,24 @@ namespace PaisesG20
         /// </summary>
         private void AgregarPaisesInvitados()
         {
-            try
-            {
-                Serializador<List<Pais>> lista = new Serializador<List<Pais>>(IArchivos<List<Pais>>.ETipoArchivo.JSON);
-                List<Pais> invitados = lista.Leer("G20Invitados.json");
-                listaPaises.AddRange(invitados);
-                DataGridRefresh();
-                MessageBox.Show("Paises invitados agregados satisfactoriamente.");
-                //return paisesG20;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            string mensaje;
+            Pais.AgregarPaisesALista(ListaPaises, "G20Invitados.json", out mensaje);
+            MessageBox.Show(mensaje);
+            DataGridRefresh();
         }
         /// <summary>
-        /// Boton que cambia la visibilidad de si mismo a oculto y muestra todos los demas controles y botones del menu principal.
+        /// Restaura la Lista Estatica de este formulario a la lista de paises original usando la funcion de hardcodeo.
+        /// </summary>
+        private void RestaurarLista()
+        {
+            listaPaises = Pais.HardcodeoPaises();
+            string mensaje = Pais.SaveToJson(ListaPaises);
+            DataGridRefresh();
+            MessageBox.Show(mensaje);
+        }
+
+        /// <summary>
+        /// Metodo para el botón que cambia la visibilidad de si mismo a oculto y muestra todos los demas controles y botones del menu principal.
         /// </summary>
         private void SwitchVisibilidad()
         {
@@ -148,9 +120,7 @@ namespace PaisesG20
         #region botones
         private void lblHardcodeoManual_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            listaPaises = Pais.HardcodeoPaises();
-            SaveToJson();
-            DataGridRefresh();
+            RestaurarLista();
         }
         private void btnMostrar_Click(object sender, EventArgs e)
         {
@@ -165,7 +135,6 @@ namespace PaisesG20
         private void btnPaisesInvitados_Click(object sender, EventArgs e)
         {
             AgregarPaisesInvitados();
-            DataGridRefresh();
         }
         private void btnFiltroEspañol_Click(object sender, EventArgs e)
         {
@@ -244,140 +213,123 @@ namespace PaisesG20
 
         #region metodos de filtrado
         /// <summary>
-        /// Metodo que recibe una lista filtrada y un string que se utiliza como clave para
-        /// nombrar e identificar el tipo de filtro realizado al guardarlo en un archivo Json 
+        /// Llama a la funcion FiltroPorPredicate y realiza un messageBox indicando si se realizo o no el filtrado.
         /// </summary>
-        /// <param name="listaFiltrada"></param>
-        /// <param name="path"></param>
-        private void JsonFiltradoGenerator(List<Pais> listaFiltrada, string path)
+        /// <param name="listaPaises">La lista de paises a filtrar.</param>
+        /// <param name="criteria">Predicate con el criterio de filtrado.</param>
+        /// <param name="path">el path y etiqueta de criterio que se va a utilizar para el  filtrado.</param>
+        /// <returns>Retorna la lista filtrada.</returns>
+        private List<Pais> FiltroGenerico(List<Pais> listaPaises, Predicate<Pais> criteria, string path)
         {
-            try
-            {
-                Serializador<List<Pais>> lista = new Serializador<List<Pais>>(IArchivos<List<Pais>>.ETipoArchivo.JSON);
-                lista.Escribir(listaFiltrada, $"{path}.json");
-                MessageBox.Show($"Json del filtro {path} creado correctamente.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            string mensaje;
+            List<Pais> listaAuxiliar = Pais.FiltroPorPredicate(listaPaises, criteria, path, out mensaje);
+            MessageBox.Show(mensaje);
+            DataGridRefresh(listaAuxiliar);
+            return listaAuxiliar;
         }
         /// <summary>
         /// Filtra la lista de paises y muestra en el DGV solo los que tienen como idioma el español, ademas de generar un Json
         /// </summary>
         private void FiltroSpanish()
         {
-            List<Pais> listaSpanish = listaPaises.FindAll((p) => p.Idioma == EIdioma.Spanish);
-            DataGridRefresh(listaSpanish);
-            JsonFiltradoGenerator(listaSpanish, "Spanish");
+            Predicate<Pais> criteria = (p) => p.Idioma == EIdioma.Spanish;
+            FiltroGenerico(listaPaises, criteria, "Spanish");
         }
         /// <summary>
         /// Filtra la lista de paises y muestra en el DGV solo los que tienen como idioma el ingles, ademas de generar un Json
         /// </summary>
         private void FiltroEnglish()
         {
-            List<Pais> listaEnglish = listaPaises.FindAll((p) => p.Idioma == EIdioma.English);
-            DataGridRefresh(listaEnglish);
-            JsonFiltradoGenerator(listaEnglish, "English");
+            Predicate<Pais> criteria = (p) => p.Idioma == EIdioma.English;
+            FiltroGenerico(listaPaises, criteria, "English");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los del continente Asiatico
         /// </summary>
         private void FiltroAsia()
         {
-            List<Pais> listaAsia = listaPaises.FindAll((p) => p.Continente == EContinente.Asia);
-            DataGridRefresh(listaAsia);
-            JsonFiltradoGenerator(listaAsia, "Asia");
+            Predicate<Pais> criteria = (p) => p.Continente == EContinente.Asia;
+            FiltroGenerico(listaPaises, criteria, "Asia");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los del continente Americano
         /// </summary>
         private void FiltroAmerica()
         {
-            List<Pais> listaAmerica = listaPaises.FindAll((p) => p.Continente == EContinente.America);
-            DataGridRefresh(listaAmerica);
-            JsonFiltradoGenerator(listaAmerica, "America");
+            Predicate<Pais> criteria = (p) => p.Continente == EContinente.America;
+            FiltroGenerico(listaPaises, criteria, "America");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los del continente Africano
         /// </summary>
         private void FiltroAfrica()
         {
-            List<Pais> listaAfrica = listaPaises.FindAll((p) => p.Continente == EContinente.Africa);
-            DataGridRefresh(listaAfrica);
-            JsonFiltradoGenerator(listaAfrica, "Africa");
+            Predicate<Pais> criteria = (p) => p.Continente == EContinente.Africa;
+            FiltroGenerico(listaPaises, criteria, "Africa");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los del continente Europeo
         /// </summary>
         private void FiltroEuropa()
         {
-            List<Pais> listaEuropa = listaPaises.FindAll((p) => p.Continente == EContinente.Europa);
-            DataGridRefresh(listaEuropa);
-            JsonFiltradoGenerator(listaEuropa, "Europa");
+            Predicate<Pais> criteria = (p) => p.Continente == EContinente.Europa;
+            FiltroGenerico(listaPaises, criteria, "Europa");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los del continente Oceanico
         /// </summary>
         private void FiltroOceania()
         {
-            List<Pais> listaOceania = listaPaises.FindAll((p) => p.Continente == EContinente.Oceania);
-            DataGridRefresh(listaOceania);
-            JsonFiltradoGenerator(listaOceania, "Oceania");
+            Predicate<Pais> criteria = (p) => p.Continente == EContinente.Oceania;
+            FiltroGenerico(listaPaises, criteria, "Oceania");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los de menos de 50 millones de habitantes
         /// </summary>
         private void FiltroMenosCincuentaMillones()
         {
-            List<Pais> listaCincuentaMillones = listaPaises.FindAll((p) => p.Poblacion < 50000000);
-            DataGridRefresh(listaCincuentaMillones);
-            JsonFiltradoGenerator(listaCincuentaMillones, "Menos De 50 Millones");
+            Predicate<Pais> criteria = (p) => p.Poblacion < 50000000;
+            FiltroGenerico(listaPaises, criteria, "Menos De 50 Millones");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los de entre 50 y 100 millones de habitantes
         /// </summary>
         private void FiltroCincuentaACienMillones()
         {
-            List<Pais> listaCincuentaACienMillones = listaPaises.FindAll((p) => p.Poblacion >= 50000000 && p.Poblacion  < 100000000);
-            DataGridRefresh(listaCincuentaACienMillones);
-            JsonFiltradoGenerator(listaCincuentaACienMillones, "Entre 50 y 100 Millones");
+            Predicate<Pais> criteria = (p) => p.Poblacion >= 50000000 && p.Poblacion < 100000000;
+            FiltroGenerico(listaPaises, criteria, "Entre 50 y 100 Millones");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los de entre 100 y 500 millones de habitantes
         /// </summary>
         private void FiltroCienAQuinientosMillones()
         {
-            List<Pais> listaCienAQuinientosMillones = listaPaises.FindAll((p) => p.Poblacion >= 100000000 && p.Poblacion < 500000000);
-            DataGridRefresh(listaCienAQuinientosMillones);
-            JsonFiltradoGenerator(listaCienAQuinientosMillones, "Entre 100 y 500 Millones");
+            Predicate<Pais> criteria = (p) => p.Poblacion >= 100000000 && p.Poblacion < 500000000;
+            FiltroGenerico(listaPaises, criteria, "Entre 100 y 500 Millones");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los de mas de 500 millones de habitantes
         /// </summary>
         private void FiltroMasDeQuinientosMillones()
         {
-            List<Pais> listaMasDeAQuinientosMillones = listaPaises.FindAll((p) => p.Poblacion >= 500000000);
-            DataGridRefresh(listaMasDeAQuinientosMillones);
-            JsonFiltradoGenerator(listaMasDeAQuinientosMillones, "Mas de 500 Millones");
+            Predicate<Pais> criteria = (p) => p.Poblacion >= 500000000;
+            FiltroGenerico(listaPaises, criteria, "Mas de 500 Millones");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los que son potencia militar
         /// </summary>
         private void FiltroEsPotencia()
         {
-            List<Pais> listaPotenciasMilitares = listaPaises.FindAll((p) => p.Potencia is true);
-            DataGridRefresh(listaPotenciasMilitares);
-            JsonFiltradoGenerator(listaPotenciasMilitares, "Es Potencia Militar");
+            Predicate<Pais> criteria = (p) => p.Potencia is true;
+            FiltroGenerico(listaPaises, criteria, "Es Potencia Militar");
         }
         /// <summary>
         /// Filtra la lista de paises para generar un Json y mostrar en el DGV solo los que NO son potencia militar
         /// </summary>
         private void FiltroNoEsPotencia()
         {
-            List<Pais> listaNoPotenciasMilitares = listaPaises.FindAll((p) => p.Potencia is false);
-            DataGridRefresh(listaNoPotenciasMilitares);
-            JsonFiltradoGenerator(listaNoPotenciasMilitares, "NO Es Potencia Militar");
+            Predicate<Pais> criteria = (p) => p.Potencia is false;
+            FiltroGenerico(listaPaises, criteria, "NO Es Potencia Militar");
         }
 
         #endregion
