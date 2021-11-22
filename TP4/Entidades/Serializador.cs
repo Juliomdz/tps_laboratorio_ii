@@ -46,7 +46,7 @@ namespace Entidades
                     }
                     else
                     {
-                        throw new InvalidExtensionException("La extension ingresada no es compatible con XML");
+                        throw new InvalidExtensionException("La extension ingresada es incompatible con el formato XML");
                     }
                 }
                 else
@@ -58,7 +58,7 @@ namespace Entidades
                     }
                     else
                     {
-                        throw new InvalidExtensionException("La extension ingresada no es compatible con JSON");
+                        throw new InvalidExtensionException("La extension ingresada es incompatible con el formato JSON");
                     }
                 }
             }
@@ -89,7 +89,7 @@ namespace Entidades
                     }
                     else
                     {
-                        throw new InvalidExtensionException("La extension ingresada no es compatible con XML");
+                        throw new InvalidExtensionException("La extension ingresada es incompatible con el formato XML");
                     }
                 }
                 else
@@ -102,7 +102,7 @@ namespace Entidades
                     }
                     else
                     {
-                        throw new InvalidExtensionException("La extension ingresada no es compatible con JSON");
+                        throw new InvalidExtensionException("La extension ingresada es incompatible con el formato JSON");
                     }
                 }
             }

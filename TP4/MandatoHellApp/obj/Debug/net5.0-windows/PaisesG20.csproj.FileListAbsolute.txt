@@ -20,7 +20,6 @@ C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\obj\Debug\net
 C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.pdb
 C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.genruntimeconfig.cache
 C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.Properties.Resources.resources
-C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.csproj.CopyComplete
 C:\Users\julio\Downloads\tps_laboratorio_ii-master\TP3\MandatoHellApp\bin\Debug\net5.0-windows\PaisesG20.exe
 C:\Users\julio\Downloads\tps_laboratorio_ii-master\TP3\MandatoHellApp\bin\Debug\net5.0-windows\PaisesG20.deps.json
 C:\Users\julio\Downloads\tps_laboratorio_ii-master\TP3\MandatoHellApp\bin\Debug\net5.0-windows\PaisesG20.runtimeconfig.json
@@ -67,3 +66,11 @@ C:\REPOSITORIOS\tps_laboratorio_ii\TP4\MandatoHellApp\obj\Debug\net5.0-windows\P
 C:\REPOSITORIOS\tps_laboratorio_ii\TP4\MandatoHellApp\obj\Debug\net5.0-windows\ref\PaisesG20.dll
 C:\REPOSITORIOS\tps_laboratorio_ii\TP4\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.pdb
 C:\REPOSITORIOS\tps_laboratorio_ii\TP4\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.genruntimeconfig.cache
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.FrmInformes.resources
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\bin\Debug\net5.0-windows\System.Data.SqlClient.dll
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\bin\Debug\net5.0-windows\runtimes\win-arm64\native\sni.dll
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\bin\Debug\net5.0-windows\runtimes\win-x64\native\sni.dll
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\bin\Debug\net5.0-windows\runtimes\win-x86\native\sni.dll
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\MandatoHellApp\obj\Debug\net5.0-windows\PaisesG20.csproj.CopyComplete

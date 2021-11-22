@@ -46,6 +46,7 @@ namespace PaisesG20
             this.lblPotencia = new System.Windows.Forms.Label();
             this.chbPotencia = new System.Windows.Forms.CheckBox();
             this.btnJson = new System.Windows.Forms.Button();
+            this.btnGuardarDB = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cboxContinente
@@ -112,13 +113,15 @@ namespace PaisesG20
             // 
             // btnAddPais
             // 
+            this.btnAddPais.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btnAddPais.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAddPais.Font = new System.Drawing.Font("Segoe UI", 8.765218F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnAddPais.Location = new System.Drawing.Point(682, 313);
+            this.btnAddPais.Location = new System.Drawing.Point(682, 298);
             this.btnAddPais.Name = "btnAddPais";
-            this.btnAddPais.Size = new System.Drawing.Size(140, 66);
+            this.btnAddPais.Size = new System.Drawing.Size(140, 52);
             this.btnAddPais.TabIndex = 6;
             this.btnAddPais.Text = "Agregar";
-            this.btnAddPais.UseVisualStyleBackColor = true;
+            this.btnAddPais.UseVisualStyleBackColor = false;
             this.btnAddPais.Click += new System.EventHandler(this.btnAddPais_Click);
             // 
             // lblIdioma
@@ -211,12 +214,12 @@ namespace PaisesG20
             // 
             // btnJson
             // 
-            this.btnJson.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnJson.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.btnJson.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnJson.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnJson.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnJson.Font = new System.Drawing.Font("Segoe UI", 8.765218F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
             this.btnJson.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.btnJson.Location = new System.Drawing.Point(682, 404);
+            this.btnJson.Location = new System.Drawing.Point(682, 356);
             this.btnJson.Name = "btnJson";
             this.btnJson.Size = new System.Drawing.Size(140, 28);
             this.btnJson.TabIndex = 16;
@@ -224,12 +227,28 @@ namespace PaisesG20
             this.btnJson.UseVisualStyleBackColor = false;
             this.btnJson.Click += new System.EventHandler(this.btnJson_Click);
             // 
+            // btnGuardarDB
+            // 
+            this.btnGuardarDB.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btnGuardarDB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnGuardarDB.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnGuardarDB.Font = new System.Drawing.Font("Segoe UI", 8.765218F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.btnGuardarDB.ForeColor = System.Drawing.Color.Red;
+            this.btnGuardarDB.Location = new System.Drawing.Point(682, 390);
+            this.btnGuardarDB.Name = "btnGuardarDB";
+            this.btnGuardarDB.Size = new System.Drawing.Size(140, 57);
+            this.btnGuardarDB.TabIndex = 17;
+            this.btnGuardarDB.Text = "Guardar en Base De Datos";
+            this.btnGuardarDB.UseVisualStyleBackColor = false;
+            this.btnGuardarDB.Click += new System.EventHandler(this.btnGuardarDB_Click);
+            // 
             // FrmAltaPais
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::PaisesG20.Properties.Resources.logoSmall1;
             this.ClientSize = new System.Drawing.Size(841, 450);
+            this.Controls.Add(this.btnGuardarDB);
             this.Controls.Add(this.btnJson);
             this.Controls.Add(this.chbPotencia);
             this.Controls.Add(this.lblPotencia);
@@ -276,5 +295,6 @@ namespace PaisesG20
         private System.Windows.Forms.Label lblPotencia;
         private System.Windows.Forms.CheckBox chbPotencia;
         private System.Windows.Forms.Button btnJson;
+        private System.Windows.Forms.Button btnGuardarDB;
     }
 }

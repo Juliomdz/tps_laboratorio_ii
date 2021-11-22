@@ -9,7 +9,6 @@ C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\Entidades\obj\Debug\net5.0\E
 C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\Entidades\obj\Debug\net5.0\Entidades.dll
 C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\Entidades\obj\Debug\net5.0\ref\Entidades.dll
 C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\Entidades\obj\Debug\net5.0\Entidades.pdb
-C:\Users\julio\source\repos\Mendez.Julio.2E.TPFinal\Entidades\obj\Debug\net5.0\Entidades.csproj.AssemblyReference.cache
 C:\Users\julio\Downloads\tps_laboratorio_ii-master\TP3\Entidades\bin\Debug\net5.0\Entidades.deps.json
 C:\Users\julio\Downloads\tps_laboratorio_ii-master\TP3\Entidades\bin\Debug\net5.0\Entidades.dll
 C:\Users\julio\Downloads\tps_laboratorio_ii-master\TP3\Entidades\bin\Debug\net5.0\ref\Entidades.dll

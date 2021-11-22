@@ -35,11 +35,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\MandatoHellApp\\PaisesG20.csproj",
+      "projectUniqueName": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP3\\MandatoHellApp\\PaisesG20.csproj",
       "projectName": "PaisesG20",
-      "projectPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\MandatoHellApp\\PaisesG20.csproj",
+      "projectPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP3\\MandatoHellApp\\PaisesG20.csproj",
       "packagesPath": "C:\\Users\\julio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\MandatoHellApp\\obj\\",
+      "outputPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP3\\MandatoHellApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -63,8 +63,8 @@
         "net5.0-windows7.0": {
           "targetAlias": "net5.0-windows",
           "projectReferences": {
-            "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj": {
-              "projectPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj"
+            "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP3\\Entidades\\Entidades.csproj": {
+              "projectPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP3\\Entidades\\Entidades.csproj"
             }
           }
         }

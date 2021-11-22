@@ -5,16 +5,28 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
 
 namespace PaisesG20
 {
+    //Aqui declare los Delegados
+    public delegate void TruncarYGuardarTabla();
+    public delegate void AgregarUnPaisALaDB(int poblacion, bool potencia, double superficie,
+        EContinente continente, EIdioma idioma, EIndiceDesarrolloHumano idh, string nombre);
     public partial class FrmMainMenu : Form
     {
+        private static bool flagPaisesInvitados = false;
+        private CancellationTokenSource cancelTokenSource;
+
         private static List<Pais> listaPaises;
         public static List<Pais> ListaPaises { get => listaPaises; set => listaPaises = value; }
+
+        private static DataBaseControls db;
+        public DataBaseControls Db { get => db; set => db = value; }
+
         public FrmMainMenu()
         {
             InitializeComponent();
@@ -22,7 +34,10 @@ namespace PaisesG20
 
         private void FrmMainMenu_Load(object sender, EventArgs e)
         {
-            LoadFromJson();
+        cancelTokenSource = new CancellationTokenSource();
+        CancellationToken cancelToken = cancelTokenSource.Token;
+        Task.Run(LoadFromDB, cancelToken);
+            //LoadFromJson(); TP3
         }
         /// <summary>
         /// Carga la lista de paises desde un archivo Json con la funcion estatica de Pais.LoadFromJson,
@@ -33,8 +48,18 @@ namespace PaisesG20
         {
             string mensaje;
             listaPaises = Pais.LoadFromJson(out mensaje);
-            MessageBox.Show(mensaje);
+            Task.Run(() => MessageBox.Show(mensaje, "", MessageBoxButtons.OK, MessageBoxIcon.Information));
             DataGridViewLoad();
+        }
+        /// <summary>
+        /// Inicializa la base de datos y Carga la lista de paises desde ella. Luego vuelca los datos en DataGridView.
+        /// </summary>
+        private void LoadFromDB()
+        {
+            db = DataBaseControls.InicializarBaseDeDatos();
+            ListaPaises = db.LeerListaDeDB();
+            DataGridViewLoad();
+            Thread.Sleep(10000); //Para darle algun uso al Cancellation Token
         }
         /// <summary>
         /// Linkea el DataGridView con la lista estatica de paises, por medio del DataSource.
@@ -43,7 +68,6 @@ namespace PaisesG20
         {
             dgvPaises.DataSource = listaPaises;
         }
-
         /// <summary>
         /// Recarga el dataGridView con los nuevos cambios por medio del BindingSource.
         /// </summary>
@@ -70,20 +94,34 @@ namespace PaisesG20
         /// </summary>
         private void AgregarPaisesInvitados()
         {
-            string mensaje;
-            Pais.AgregarPaisesALista(ListaPaises, "G20Invitados.json", out mensaje);
-            MessageBox.Show(mensaje);
-            DataGridRefresh();
+            if (flagPaisesInvitados == false)
+            {
+                string mensaje;
+                Pais.AgregarPaisesALista(ListaPaises, "G20Invitados.json", out mensaje);
+                Task.Run(() => MessageBox.Show(mensaje, "", MessageBoxButtons.OK, MessageBoxIcon.Information));
+                db.LimpiarBaseDeDatos();
+                db.GuardarListaEnDB(listaPaises);
+                DataGridRefresh();
+                flagPaisesInvitados = true;
+            }
+            else
+            {
+                Task.Run(() => MessageBox.Show("ERROR. Los paises invitados ya se han agregado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
+            }
         }
         /// <summary>
         /// Restaura la Lista Estatica de este formulario a la lista de paises original usando la funcion de hardcodeo.
         /// </summary>
         private void RestaurarLista()
         {
+            cancelTokenSource.Cancel(); //en caso de que aun siga cargando la base de datos
             listaPaises = Pais.HardcodeoPaises();
             string mensaje = Pais.SaveToJson(ListaPaises);
             DataGridRefresh();
-            MessageBox.Show(mensaje);
+            db.LimpiarBaseDeDatos();
+            db.GuardarListaEnDB(listaPaises);
+            flagPaisesInvitados = false;
+            Task.Run(() => MessageBox.Show(mensaje,"", MessageBoxButtons.OK, MessageBoxIcon.Information));
         }
 
         /// <summary>
@@ -116,6 +154,7 @@ namespace PaisesG20
             lblPoblacion.Visible = true;
             lblPotencia.Visible = true;
             lblOtrosControles.Visible = true;
+            btnInformes.Visible = true;
         }
         #region botones
         private void lblHardcodeoManual_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -209,8 +248,13 @@ namespace PaisesG20
         {
 
         }
+        private void btnInformes_Click(object sender, EventArgs e)
+        {
+            FrmInformes menuInformes = new FrmInformes();
+            menuInformes.ShowDialog();
+            DataGridRefresh();
+        }
         #endregion
-
         #region metodos de filtrado
         /// <summary>
         /// Llama a la funcion FiltroPorPredicate y realiza un messageBox indicando si se realizo o no el filtrado.
@@ -223,7 +267,7 @@ namespace PaisesG20
         {
             string mensaje;
             List<Pais> listaAuxiliar = Pais.FiltroPorPredicate(listaPaises, criteria, path, out mensaje);
-            MessageBox.Show(mensaje);
+            Task.Run(() => MessageBox.Show(mensaje, "", MessageBoxButtons.OK, MessageBoxIcon.Information));
             DataGridRefresh(listaAuxiliar);
             return listaAuxiliar;
         }
@@ -332,6 +376,32 @@ namespace PaisesG20
             FiltroGenerico(listaPaises, criteria, "NO Es Potencia Militar");
         }
 
+        #endregion
+        #region metodos Para llamar con Delegados
+        /// <summary>
+        /// Metodo estatico que agrega un pais a la tabla de la base de datos por parametros, con la instancia local de la database,
+        /// para utilizar con delegados.
+        /// </summary>
+        /// <param name="poblacion"></param>
+        /// <param name="potencia"></param>
+        /// <param name="superficie"></param>
+        /// <param name="continente"></param>
+        /// <param name="idioma"></param>
+        /// <param name="idh"></param>
+        /// <param name="nombre"></param>
+        public static void SumarPais(int poblacion, bool potencia, double superficie, EContinente continente, EIdioma idioma, EIndiceDesarrolloHumano idh, string nombre)
+        {
+            db.AgregarUnPaisALaDB(poblacion, potencia, superficie, continente, idioma, idh, nombre);
+        }
+        /// <summary>
+        /// Metodo estatico que trunca la tabla de la base de datos por parametros y la genera nuevamente a partir de la lista,
+        /// con la instancia local de la database, para utilizar con delegados.
+        /// </summary>
+        public static void LimpiarYGuardarTabla()
+        {
+            db.LimpiarBaseDeDatos();
+            db.GuardarListaEnDB(listaPaises);
+        }
         #endregion
     }
 

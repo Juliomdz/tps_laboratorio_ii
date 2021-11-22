@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\Entidades\\Entidades.csproj": {}
+    "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj": {}
   },
   "projects": {
-    "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\Entidades\\Entidades.csproj": {
+    "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\Entidades\\Entidades.csproj",
+        "projectUniqueName": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj",
         "projectName": "Entidades",
-        "projectPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\Entidades\\Entidades.csproj",
+        "projectPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\Entidades.csproj",
         "packagesPath": "C:\\Users\\julio\\.nuget\\packages\\",
-        "outputPath": "C:\\REPOSITORIOS\\tps_laboratorio_ii\\TP4\\Entidades\\obj\\",
+        "outputPath": "C:\\Users\\julio\\source\\repos\\Mendez.Julio.2E.TPFinal\\Entidades\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -46,6 +46,12 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
