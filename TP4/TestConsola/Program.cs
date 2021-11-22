@@ -10,14 +10,21 @@ namespace TestConsola
         {
             string mensaje;
             string informe;
+            int habitantes = 43600000;
+            int superficie = 2780400;
+            string nombre = "Angola";
             DataBaseControls.InicializarBaseDeDatos();
             Console.WriteLine(" Se inicializa la base de datos. ");
             DataBaseControls db = new DataBaseControls();
             Console.WriteLine(" se instancia la clase que da acceso a los controles de la base de datos. ");
             List<Pais> ListaPaises = db.LeerListaDeDB();
             Console.WriteLine("Se lee la lista de paises de la DB.  ");
-            db.AgregarUnPaisALaDB(43600000, false, 2780400, EContinente.Africa, EIdioma.Spanish, EIndiceDesarrolloHumano.Medio, "Angola");
+            db.AgregarUnPaisALaDB(habitantes, false, superficie, EContinente.Africa, EIdioma.Spanish, EIndiceDesarrolloHumano.Medio, nombre);
             Console.WriteLine(" Se agrega un país hardcodeado. ");
+            Console.WriteLine("Se testea el metodo de extension.");
+            string sup = (superficie).CambiarFormato();
+            string poblacion= (habitantes).CambiarFormato();
+            Console.WriteLine($" El país Hardcodeado fue:{nombre}. Habitantes:{poblacion}. Superficie:{sup}. ");
             db.LimpiarBaseDeDatos();
             Console.WriteLine("Se trunca la DB.  ");
             ListaPaises =Pais.HardcodeoPaises();
